@@ -97,8 +97,10 @@ class predict():
         doc_list = list(doc)
         client_id_num = doc_list[0]['client_id_num']
         print (client_id_num)
-        doc1 = list(colTransactions.find(query))
-        skus_previos = list(map(lambda x: x['sku'], doc1))
+        #doc1 = list(colTransactions.find(query))
+        #skus_previos = list(map(lambda x: x['sku'], doc1))
+        transactions=pd.read_csv("./modelos/transactions_{}.csv".format(tiendas[store]))
+        skus_previos=transactions[transactions.client_id==user][['sku','quantity']].sku.values.tolist()
         query2 = {'id': {"$nin": skus_previos}}
         skus_previos_ids = list(colProds.find(query2))
         df_previous = pd.DataFrame(skus_previos_ids)
